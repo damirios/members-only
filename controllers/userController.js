@@ -1,11 +1,11 @@
 const User = require('../models/user');
 const {checkAuthenticated} = require('../middlewares/checkAuthenticated');
 const {checkLoggedIn} = require('../middlewares/checkLoggedIn');
+const {checkAccountId} = require('../middlewares/checkAccountId');
 
 const bcrypt = require('bcryptjs');
 const passport = require('passport');
 const {body, validationResult} = require('express-validator');
-
 
 
 exports.sign_up_get = [checkLoggedIn, (req, res, next) => {
@@ -88,6 +88,7 @@ exports.sign_up_post = [
     }
 ];
 
+
 exports.log_in_get = [checkLoggedIn, (req, res, next) => {
     res.render("user_form", {
         title: "Log In",
@@ -96,7 +97,7 @@ exports.log_in_get = [checkLoggedIn, (req, res, next) => {
 }];
 exports.log_in_post = passport.authenticate('local', {
     successRedirect: '/',
-    failureRedirect: '/user/log-in_error'
+    failureRedirect: '/user/log-in'
 });
 exports.log_out_get = (req, res, next) => {
     req.logOut((err) => {
@@ -107,6 +108,7 @@ exports.log_out_get = (req, res, next) => {
         res.redirect("/");
     });
 }
+
 
 exports.update_status_get = [checkAuthenticated, (req, res, next) => {
     res.render('change-status', {
@@ -176,3 +178,66 @@ exports.update_status_post = (req, res, next) => {
         });
     }
 };
+
+
+exports.update_account_get = [checkAuthenticated, checkAccountId, (req, res, next) => {
+    res.render('account_form', {
+        user: req.user,
+        title: 'Изменить данные пользователя'
+    });
+}];
+exports.update_account_post = [
+    body("account_first").trim().isLength({min: 1})
+        .withMessage("First name must be specified").isLength({max: 32})
+        .withMessage("First name max length is 32").escape()
+        .isAlphanumeric()
+        .withMessage("First name has non-alphanumeric characters"),
+    body("account_last").trim().isLength({min: 1})
+        .withMessage("Last name must be specified").isLength({max: 32})
+        .withMessage("Last name max length is 32").escape()
+        .isAlphanumeric()
+        .withMessage("Last name has non-alphanumeric characters"),
+    body("account_login").trim().isLength({min: 1})
+        .withMessage("Login must be specified").isLength({max: 32})
+        .withMessage("Login max length is 32").escape()
+        .isAlphanumeric()
+        .withMessage("Login has non-alphanumeric characters"),
+    body("account_email").trim().isEmail().withMessage("Incorrect email").escape(),
+    (req, res, next) => {
+        console.log(req.body);
+        const errors = validationResult(body);
+
+        if (!errors.isEmpty()) {
+            res.redirect(`/user/${req.user.id}/account`, {
+                title: 'Изменить данные пользователя',
+                errors: errors.array()
+            });
+        }
+
+        User.findById(req.params.id, (err, user) => {
+            if (err) {
+                return next(err);
+            }
+
+            if (!user) {
+                const err = new Error("User not found");
+                err.status = 404;
+                return next(err);
+            }
+        });
+
+        User.findByIdAndUpdate(req.params.id, {
+            _id: req.params.id,
+            username: req.body.account_login,
+            first_name: req.body.account_first,
+            last_name: req.body.account_last,
+            email: req.body.account_email
+        }, {}, (err, theuser) => {
+            if (err) {
+                return next(err);
+            }
+
+            res.redirect('/');
+        });
+    }
+]
