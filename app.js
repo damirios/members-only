@@ -7,6 +7,7 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const passport = require('passport');
 const session = require('express-session');
+const MongoStore = require('connect-mongo');
 const LocalStrategy = require('passport-local').Strategy;
 const bcrypt = require('bcryptjs');
 
@@ -24,7 +25,8 @@ app.set('views', path.join(__dirname, '/views'));
 app.set('view engine', 'pug');
 
 
-app.use(session({ secret: process.env.SESSION_SECRET, resave: false, saveUninitialized: true }));
+app.use(session({ secret: process.env.SESSION_SECRET, resave: false, saveUninitialized: true,
+    store: MongoStore.create({mongoUrl: process.env.DB_URL})}));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.json());
