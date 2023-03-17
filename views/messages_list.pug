@@ -1,0 +1,24 @@
+extends layout 
+
+block main 
+    div.main__body.messages
+        h1.messages__title= 'Messages list'
+        div.messages__list
+            each message in messages 
+                div.messages__single-message.single-message
+                    if message.timestamp
+                        div.single-message__timestamp-user
+                            div.single-message__user #{message.user.username} (#{message.user.fullname})
+                            div.single-message__timestamp #{message.timestamp}
+                    div.single-message__title #{message.title}
+                    div.single-message__text #{message.text}
+                    if (user && user.membership_status === 'master')
+                        form.single-message__delete-form(method="POST" action=`/message/${message._id}/delete`)
+                            button.single-message__submit(type='submit') Delete message
+            else
+                div.messages__no-messages-alarm
+                    p There are no messages yet
+                    p -_-
+
+
+                

@@ -1,0 +1,41 @@
+extends layout 
+
+block main 
+    div.main__body.change-status
+        h1.change-status__title= 'Status changing page'
+        if (status)
+            div.change-status__wrong-pass
+                p Secret code for '#{status}' status is wrong!
+                p Try again
+        form.change-status__form(method="POST" action='')
+            div.change-status__images
+                div.change-status__single-type.single-type
+                    input.single-type__input(type="radio" name='status' id='padawan' value='padawan' checked)
+                    label.single-type__label(for="padawan")
+                        img.single-type__image(src='/images/padawan.webp' alt='padawan')
+                    h1.single-type__title 'Padawan' status allows you to
+                    ul.single-type__list 
+                        li.single-type__item Write messages
+                div.change-status__single-type.single-type
+                    input.single-type__input(type="radio" name='status' id='jedi' value='jedi')
+                    label.single-type__label(for="jedi")
+                        img.single-type__image(src='/images/jedi.jpg' alt='jedi')
+                    h1.single-type__title 'Jedi' status allows you to
+                    ul.single-type__list 
+                        li.single-type__item Write messages
+                        li.single-type__item See date and author of messages
+                div.change-status__single-type.single-type
+                    input.single-type__input(type="radio" name='status' id='master' value='master')
+                    label.single-type__label(for="master")
+                        img.single-type__image(src='/images/master.webp' alt='master')
+                    h1.single-type__title 'Master' status allows you to
+                    ul.single-type__list 
+                        li.single-type__item Write messages
+                        li.single-type__item See date and author of messages
+                        li.single-type__item Delete messages
+            div.change-status__password-box
+                input.change-status__password-input(type='password' name='secret_word' placeholder='Secret code (case sensetive)') 
+            div.change-status__submit-box
+                button.change-status__submit(type='submit') Изменить статус
+        
+            

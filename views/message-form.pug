@@ -1,0 +1,16 @@
+extends layout 
+
+block main 
+    div.main__body.message-form
+        h1.message-form__title= title 
+        form.message-form__form.form-message(method="POST" action='')
+            div.form-message__title.form-message__group
+                label.form-message__label(for="message_title") Title:
+                input#message_title.form-message__input(type='text' name='title' required 
+                    placeholder="Hello there!" maxlength="32" value=(message ? message.title : ''))
+            div.form-message__text.form-message__group
+                label.form-message__label(for="message_text") Text:
+                textarea#message_text.form-message__textarea(type='text' name='text' required 
+                    placeholder="General Kenobi!" maxlength="820" value=(message ? message.text : ''))
+            div.form-message__submit-box
+                button.form-message__submit(type='submit') Publish message

@@ -1,0 +1,19 @@
+extends layout 
+
+block main
+    div.main__body.homepage
+        h1.homepage__title= 'Homepage'
+        if (message) 
+            div.homepage__message #{message}
+        div.homepage__info.info-homepage
+            div.info-homepage__title This app allows you to
+            ul.info-homepage__list
+                li.info-homepage__item
+                    a.info-homepage__link(href="/user/sign-up") Sign Up
+                    |  / 
+                    a.info-homepage__link(href="/user/log-in") Log In 
+                li.info-homepage__item Write a message (if you're logged in)
+                li.info-homepage__item See authors of messages (if you're logged in)
+                li.info-homepage__item Get 'admin' status (must know secret password)
+                li.info-homepage__item Delete messages (if you're an admin)
+        

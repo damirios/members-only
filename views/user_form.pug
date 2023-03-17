@@ -1,0 +1,39 @@
+extends layout
+
+block main
+    div.main__body.form-page
+        h1.form-page__title= title 
+        if message
+            .form-page__message #{message}
+        form.form-page.user-form(method="POST" action='')
+            div.form__group_first-col
+                if isSignup
+                    div.user-form__group
+                        label.user-form__label(for="first-name") First Name:
+                        input#first-name.user-form__input(type='text' placeholder="First Name (James)" name='first_name')
+                    div.user-form__group
+                        label.user-form__label(for="last-name") Last Name:
+                        input#last-name.user-form__input(type='text' placeholder="Last Name (Cameron)" name='last_name')
+                div.user-form__group
+                    label.user-form__label(for="login") Login:
+                    input#login.user-form__input(type='text' placeholder="Terminator" name='username')
+                if isSignup
+                    div.user-form__group
+                        label.user-form__label(for="email") Email:
+                        input#email.user-form__input(type='email' placeholder="terminator@jc.com" name='email')
+            div.user-form__group_second-col
+                if isSignup
+                    div.user-form__group
+                        label.user-form__label(for="avatar") Avatar:
+                        input#avatar.user-form__input(type='file' name='avatar')
+                div.user-form__group
+                    label.user-form__label(for="password") Password:
+                    input#password.user-form__input(type='password' name='password') 
+                if isSignup
+                    div.user-form__group
+                        label.user-form__label(for="confirm") Confirm password:
+                        input#confirm.user-form__input(type='password' name='confirm') 
+            div.user-form__submit-box
+                button.user-form__submit(type='submit')= isSignup ? "Sign Up" : "Log In"
+    //- script 
+        //- include ../public/script/passwordValidation.js

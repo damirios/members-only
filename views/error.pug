@@ -1,0 +1,9 @@
+extends layout
+
+block main
+	h1(style='margin-bottom:30px')= message
+	h2= error.status
+	pre(style='margin-bottom:30px') #{error.stack}
+
+	if (link)
+		a(href=link style='font-size:22px;color:red;') Back to previous page
