@@ -41,12 +41,22 @@ exports.sign_up_post = [
                 title: 'Sign Up (check errors)',
                 errors: errors.array()
             });
+            return;
+        }
+
+        if (req.body.password !== req.body.confirm) {
+            res.render('user_form', {
+                message: "Passwords does not match!",
+                isSignup: true,
+                title: 'Sign Up'
+            });
+            return;
         }
         
         User.find().or([{username: req.body.username}, {email: req.body.email}])
         .then(users => {
 
-            if (users) { // есть пользователи с таким username или email
+            if (users.length !== 0) { // есть пользователи с таким username или email
                 res.render('user_form', {
                     message: `User with '${req.body.username}' username or '${req.body.email}' email already registered`,
                     isSignup: true,
@@ -202,9 +212,7 @@ exports.update_account_post = [
         .withMessage("Login max length is 32").escape()
         .isAlphanumeric()
         .withMessage("Login has non-alphanumeric characters"),
-    body("account_email").trim().isEmail().withMessage("Incorrect email").escape(),
     (req, res, next) => {
-        console.log(req.body);
         const errors = validationResult(body);
 
         if (!errors.isEmpty()) {
@@ -230,8 +238,7 @@ exports.update_account_post = [
             _id: req.params.id,
             username: req.body.account_login,
             first_name: req.body.account_first,
-            last_name: req.body.account_last,
-            email: req.body.account_email
+            last_name: req.body.account_last
         }, {}, (err, theuser) => {
             if (err) {
                 return next(err);

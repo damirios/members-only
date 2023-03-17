@@ -16,10 +16,6 @@ block main
                 label.form-account__label(for="account_last") Last name:
                 input#account_last.form-account__input(type='text' name='account_last' required 
                     maxlength="32" value=user.last_name tabindex='3')
-            div.account__email.form-account__group
-                label.form-account__label(for="account_last") Email:
-                input#account_email.form-account__input(type='email' name='account_email' 
-                    maxlength="32" value=user.email tabindex='4')
             div.account__membership-status.form-account__group
                 p.form-account__membership-status Status: "#{user.membership_status}"
                 p.form-account__membership-status if you want to change status, go to
