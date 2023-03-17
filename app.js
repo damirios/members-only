@@ -26,7 +26,7 @@ app.set('view engine', 'pug');
 
 
 app.use(session({ secret: process.env.SESSION_SECRET, resave: false, saveUninitialized: true,
-    store: MongoStore.create({mongoUrl: process.env.DB_URL, autoRemove: 'interval', autoRemoveInterval: 1})}));
+    store: MongoStore.create({mongoUrl: process.env.DB_URL, ttl: 15 * 60}) })); // 15 minutes
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.json());
