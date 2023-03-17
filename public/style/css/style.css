@@ -96,7 +96,7 @@
   }
 }
 .header__userinfo {
-  flex: 0 0 255px;
+  flex: 0 0 auto;
 }
 @media (max-width: 768px) {
   .header__userinfo {

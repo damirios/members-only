@@ -94,7 +94,7 @@
     }
 
     &__userinfo {
-        flex: 0 0 255px;
+        flex: 0 0 auto;
 
         @media (max-width: 768px) {
             grid-area: 1 / 2 / 2 / 3;

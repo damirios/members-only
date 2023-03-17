@@ -3,6 +3,7 @@ const Message = require('../models/message');
 const dateToString = require('../utilityFunctions/dateToString');
 
 const {checkAuthenticated} = require('../middlewares/checkAuthenticated');
+const {unescapeChar} = require('../middlewares/unescapeChar');
 
 const {body, validationResult} = require('express-validator');
 
@@ -68,6 +69,7 @@ exports.create_message_post = [
         .withMessage("Title must be specified").escape(),
     body('text').trim().isLength({min: 1})
         .withMessage("Please, enter some text").escape(),
+    unescapeChar('&#x27;', "'"), unescapeChar('&quot;', '"'),
     (req, res, next) => {
         // Extract the validation errors from a request.
         const errors = validationResult(body);
