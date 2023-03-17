@@ -30,7 +30,7 @@ npm start
 ```
 or (dev mode):
 ```
-npm run devstart
+npm run dev
 ```
 App runs on (PORT is environment variable):
 ```
